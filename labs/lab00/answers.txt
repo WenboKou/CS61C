@@ -1,4 +1,14 @@
-1.
-2.
-3.
-4.
+1./keyword
+2.ps -ef
+3.kill [signal-number] pid
+4.diff file1 file2 or diff -w file1 file2 (ignore white space)
+5.Show file permissions for all files in a directory?
+ls -l
+More details: https://docs.rackspace.com/support/how-to/checking-linux-file-permissions-with-ls/
+6.Move files from one directory to the next
+mv path1 path2
+7.Change a file’s permissions
+chmod 755 public_dir
+https://docs.oracle.com/cd/E19683-01/816-4883/6mb2joat4/index.html#secfile-26
+8.Show the directory you’re currently in
+pwd
