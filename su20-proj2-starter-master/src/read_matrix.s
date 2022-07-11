@@ -26,16 +26,56 @@
 read_matrix:
 
     # Prologue
-	
-
-
-
-
-
-
-
+    
+    # open the file
+    mv a1 a0
+    li a2 0
+	jal fopen
+    li t0 -1
+    beq a0 t0 exit_50
+    
+    # read the file
+    mv a1 a0 # a1 is the file descriptor
+    li a3 4 # read 4 bytes each time
+    jal fread
+    bne a3 a0 exit_51
+    mv t1 a2 # pointer to number of rows
+    lw t1 0(t1)
+    jal fread
+    bne a3 a0 exit_51
+    mv t2 a2 # pointer to number of columns
+    lw t2 0(t2)
+    
+    mul a0 t1 t2 # number of elements of the matrix
+    mul a0 a0 a3 # number of bytes of the matrix
+    mv a3 a0
+    
+    jal malloc
+    
+    mv a2 a0
+    
+    jal fread
+    bne a3 a0 exit_51
+    
+    jal fclose
+    bne a0 x0 exit_52
+    
+    mv a0 a2
+    mv a1 t1
+    mv a2 t2
 
     # Epilogue
 
 
     ret
+exit_50:
+	li a1 50
+    j exit2
+    
+exit_51:
+	li a1 51
+    j exit2
+
+exit_52:
+	li a1 52
+    j exit2
