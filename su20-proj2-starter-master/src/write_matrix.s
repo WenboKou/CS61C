@@ -27,16 +27,64 @@
 write_matrix:
 
     # Prologue
-
-
-
-
-
-
-
+    addi sp sp -16
+    sw s0 0(sp)
+    sw s1 4(sp)
+    sw s2 8(sp)
+    sw s3 12(sp)
+    
+    mv s0 a0
+    mv s1 a1
+    mv s2 a2
+    mv s3 a3
+    
+    li t0 -1
+    
+    mv a1 s0
+    li a2 1 # write only mode
+    jal fopen
+    beq a0 t0 exit_53
+    
+    mv a1 a0
+    li a0 8
+    jal malloc
+    sw s2 0(a0)
+    sw s3 4(a0)
+    mv a2 a0
+    li a3 2
+    li a4 4
+    jal fwrite
+    bne a0 a3 exit_54
+    # free the allocated heap memory
+    mv a0 a2
+    jal free
+    
+    mv a2 s1
+    mul a3 s2 s3
+    jal fwrite
+    bne a0 a3 exit_54
+    
+    jal fclose
+    beq a0 t0 exit_55
 
 
     # Epilogue
-
+    lw s0 0(sp)
+    lw s1 4(sp)
+    lw s2 8(sp)
+    lw s3 12(sp)
+    addi sp sp 16
 
     ret
+
+exit_53:
+	li a1 53
+    j exit2
+    
+exit_54:
+	li a1 54
+    j exit2
+    
+exit_55:
+	li a1 55
+    j exit2
